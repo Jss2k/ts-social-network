@@ -8,21 +8,65 @@ datasource db {
 }
 
 model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  password String
-  name     String?
-  posts    Post[]
+  id         Int          @id @default(autoincrement())
+  email      String       @unique
+  password   String       @default("")
+  name       String?
+  trashs     Trash[]
+  Profile    Profile?
+  likedTrash LikedTrash[]
+  comments   Comment[]
+  Following  Following[]
 }
 
-model Post {
+model Trash {
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  content   String?
+  likes     LikedTrash[]
+  author    User?        @relation(fields: [authorId], references: [id])
+  authorId  Int?
+  comments  Comment[]
+}
+
+model LikedTrash {
+  id      Int      @id @default(autoincrement())
+  trash   Trash    @relation(fields: [trashId], references: [id])
+  likedAt DateTime @default(now())
+  userId  Int?
+  User    User?    @relation(fields: [userId], references: [id])
+  trashId Int
+}
+
+model Following {
+  id       Int    @id @default(autoincrement())
+  name     String
+  avatar   String
+  followId Int
+  User     User?  @relation(fields: [userId], references: [id])
+  userId   Int?
+}
+
+model Profile {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
+  bio       String?
+  location  String?
+  website   String?
+  avatar    String?
+  userId    Int?     @unique
+  User      User?    @relation(fields: [userId], references: [id])
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
   content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  Trash     Trash?    @relation(fields: [trashId], references: [id])
+  trashId   Int?
+  User      User?     @relation(fields: [userId], references: [id])
+  userId    Int?
+  comments  Comment[] @relation("CommentToComment")
+  Comment   Comment?  @relation("CommentToComment", fields: [commentId], references: [id])
+  commentId Int?
 }
