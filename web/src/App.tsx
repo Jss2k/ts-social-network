@@ -10,6 +10,7 @@ import {
 import Landing from './components/Landing/Landing'
 import Signup from './pages/Signup/Signup';
 import Login from './pages/Login/Login';
+import IsAuth from './components/IsAuth/IsAuth';
 import Users from './components/Users/Users'
 
 import './App.css'
@@ -51,9 +52,11 @@ const App = () => {
           <Route path='/login'>
             <Login />
           </Route>
-          <Route path='/'>
-            <Users />
-          </Route>
+          <IsAuth>
+            <Route path='/'>
+              <Users />
+            </Route>
+          </IsAuth>
         </Switch>
       </Router>
     </ApolloProvider>
