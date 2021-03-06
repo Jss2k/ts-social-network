@@ -1,5 +1,5 @@
 import styled from 'styled-components'
 
-export const Users = styled.div`
+export const Wrapper = styled.div`
 
 `

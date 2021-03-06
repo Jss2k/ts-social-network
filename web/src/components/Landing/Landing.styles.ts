@@ -1,5 +1,5 @@
 import styled from 'styled-components'
 
-export const Landing = styled.div`
+export const Wrapper = styled.div`
 
 `
